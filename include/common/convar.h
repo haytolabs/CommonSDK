@@ -25,30 +25,32 @@
 
 ===========================================================================
 */
-struct cvar {
-public:
-   bool     m_bFree = true;
-   char     m_szName[128];
-   char     m_szValue[128];
-   char     m_szDescription[128];
-   int      m_iBitflags = CVAR_TYPE_STRING;
-   int      m_iValue = 0;
-   int      m_iMinimum = 0;
-   int      m_iMaximum = 1;
-   cvar*    m_pLink = NULL;
-   cvar*    m_pOwner = NULL;
+struct cvar
+{
+  public:
+    bool m_bFree = true;
+    char m_szName[128];
+    char m_szValue[128];
+    char m_szDescription[128];
+    int m_iBitflags = CVAR_TYPE_STRING;
+    int m_iValue = 0;
+    int m_iMinimum = 0;
+    int m_iMaximum = 1;
+    cvar *m_pLink = NULL;
+    cvar *m_pOwner = NULL;
 
-public:
-   void        SetValue(const char* pszValue);
-   void        SetRules(int iMinimum, int iMaximum);
-   void        SetDescription(const char* pszDescription);
+  public:
+    void SetValue(const char *pszValue);
+    void SetRules(int iMinimum, int iMaximum);
+    void SetDescription(const char *pszDescription);
 
-   const char* ToString();
-   int         ToInteger();
+    const char *ToString();
+    int ToInteger();
 
-   cvar() = default;
-   cvar(const char* pszName, const char* pszValue, const char* pszDescription, int iBits = CVAR_TYPE_STRING, int iMinimum = 0, int iMaximum = 1);
-   cvar(const char* pszName, const char* pszValue, int iBits = CVAR_TYPE_STRING, int iMinimum = 0, int iMaximum = 1);
+    cvar() = default;
+    cvar(const char *pszName, const char *pszValue, const char *pszDescription, int iBits = CVAR_TYPE_STRING,
+         int iMinimum = 0, int iMaximum = 1);
+    cvar(const char *pszName, const char *pszValue, int iBits = CVAR_TYPE_STRING, int iMinimum = 0, int iMaximum = 1);
 };
 
 typedef void (*command_callback)(std::vector<std::string> command_line);
@@ -60,19 +62,21 @@ typedef void (*command_callback)(std::vector<std::string> command_line);
 
 ===========================================================================
 */
-struct command_t {
-   bool              m_bFree = true;
-   char              m_szName[128];
-   command_callback  m_Callback;
-   command_t*        m_pLink = NULL;
-   command_t*        m_pOwner = NULL;
+struct command_t
+{
+    bool m_bFree = true;
+    char m_szName[128];
+    command_callback m_Callback;
+    command_t *m_pLink = NULL;
+    command_t *m_pOwner = NULL;
 
-   command_t() = default;
-   command_t(const char* pszCommandName, command_callback);
+    command_t() = default;
+    command_t(const char *pszCommandName, command_callback);
 };
 
-struct reginfo_t {
-   char m_szName[128];
+struct reginfo_t
+{
+    char m_szName[128];
 };
 
 /*
@@ -82,21 +86,22 @@ struct reginfo_t {
 
 ===========================================================================
 */
-class IConvarSystem {
-public:
-   virtual cvar*                    RegisterConvar(const char* pszName) = 0;
-   virtual cvar*                    SearchConvar(const char* pszName) = 0;
-   virtual void                     SetConvarValue(const char* pszName, const char* szValue) = 0;
-   virtual void                     FreeConvarHandles() = 0;
-   virtual void                     SaveConfig(Path_t strPath) = 0;
-   virtual void                     LoadConfig(Path_t strPath) = 0;
-   virtual std::vector<reginfo_t>   GetConvarList() = 0;
+class IConvarSystem
+{
+  public:
+    virtual cvar *RegisterConvar(const char *pszName) = 0;
+    virtual cvar *SearchConvar(const char *pszName) = 0;
+    virtual void SetConvarValue(const char *pszName, const char *szValue) = 0;
+    virtual void FreeConvarHandles() = 0;
+    virtual void SaveConfig(Path_t strPath) = 0;
+    virtual void LoadConfig(Path_t strPath) = 0;
+    virtual std::vector<reginfo_t> GetConvarList() = 0;
 
-   virtual command_t*               RegisterCommand(const char* pszName, command_callback) = 0;
-   virtual command_t*               FindCommand(const char* pszName) = 0;
-   virtual std::vector<reginfo_t>   GetCommandNames() = 0;
+    virtual command_t *RegisterCommand(const char *pszName, command_callback) = 0;
+    virtual command_t *FindCommand(const char *pszName) = 0;
+    virtual std::vector<reginfo_t> GetCommandNames() = 0;
 };
 
-extern IConvarSystem* convar();
+extern IConvarSystem *convar();
 
 #endif /* HAYATOLABS_CONVAR_HPP */

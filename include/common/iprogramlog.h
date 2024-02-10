@@ -15,12 +15,13 @@
 уровни логгинга
 =====================
 */
-enum class ELogLevel_t {
-   k_eInfoLevel = 0,
-   k_eWarningLevel,
-   k_eErrorLevel,
-   k_eDeveloper,     // не выводится в релиз-моде, но можно включить параметром -dev
-   k_eConsolePrint,
+enum class ELogLevel_t
+{
+    k_eInfoLevel = 0,
+    k_eWarningLevel,
+    k_eErrorLevel,
+    k_eDeveloper, // не выводится в релиз-моде, но можно включить параметром -dev
+    k_eConsolePrint,
 };
 
 /*
@@ -30,12 +31,13 @@ enum class ELogLevel_t {
 
 ===========================================================================
 */
-class IProgramLog {
-public:
-   virtual bool OpenLogFile(Path_t strFile) = 0;
-   virtual void CloseLogFile() = 0;
-   virtual void Print(ELogLevel_t iLevel, const char* szText, ...) = 0;
+class IProgramLog
+{
+  public:
+    virtual bool OpenLogFile(Path_t strFile) = 0;
+    virtual void CloseLogFile() = 0;
+    virtual void Print(ELogLevel_t iLevel, const char *szText, ...) = 0;
 };
-IProgramLog* GetDefaultLogger();
+IProgramLog *GetDefaultLogger();
 
 #endif

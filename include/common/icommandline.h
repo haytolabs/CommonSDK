@@ -22,17 +22,18 @@
 
 ===========================================================================
 */
-class ICommandLine {
-public:
-   virtual void         ParseFromArguments(int argc, char* *args) = 0;
-   virtual bool         IsParsed() = 0;
+class ICommandLine
+{
+  public:
+    virtual void ParseFromArguments(int argc, char **args) = 0;
+    virtual bool IsParsed() = 0;
 
-   virtual void         AddParameter(const char* pszParameterName) = 0;
-   virtual void         RemoveParameter(const char* pszParameterName) = 0;
-   virtual int          FindParameter(const char* pszParameterName) = 0;
-   virtual const char*  GetParameterByIndex(int index) = 0;
+    virtual void AddParameter(const char *pszParameterName) = 0;
+    virtual void RemoveParameter(const char *pszParameterName) = 0;
+    virtual int FindParameter(const char *pszParameterName) = 0;
+    virtual const char *GetParameterByIndex(int index) = 0;
 };
 
-extern ICommandLine*   commandline();
+extern ICommandLine *commandline();
 
 #endif /* HAYATOLABS_COMMON_CMD_HPP */

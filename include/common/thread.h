@@ -8,9 +8,9 @@
 #ifndef __THREAD__H__
 #define __THREAD__H__
 
-#include "public.h"
-#include "platform.h"
 #include "mem.h"
+#include "platform.h"
+#include "public.h"
 
 /*
 ================================================
@@ -19,27 +19,36 @@ object that can only be locked by one thread at a time.  It's used to prevent tw
 from accessing the same piece of pData simultaneously.
 ================================================
 */
-class CSystemMutex {
-public:
-    CSystemMutex() {
+class CSystemMutex
+{
+  public:
+    CSystemMutex()
+    {
         platform()->MutexCreate(m_Handle);
     }
-    ~CSystemMutex() {
+    ~CSystemMutex()
+    {
         platform()->MutexDestroy(m_Handle);
     }
 
-    bool			Lock(bool blocking = true) {
+    bool Lock(bool blocking = true)
+    {
         return platform()->MutexLock(m_Handle, blocking);
     }
-    void			Unlock() {
+    void Unlock()
+    {
         platform()->MutexUnlock(m_Handle);
     }
 
-private:
-    mutexHandle_t	m_Handle;
+  private:
+    mutexHandle_t m_Handle;
 
-    CSystemMutex(const CSystemMutex& s) {}
-    void			operator=(const CSystemMutex& s) {}
+    CSystemMutex(const CSystemMutex &s)
+    {
+    }
+    void operator=(const CSystemMutex &s)
+    {
+    }
 };
 
 /*
@@ -48,17 +57,20 @@ CScopedCriticalSection is a helper class that automagically locks a mutex when i
 and unlocks it when it goes out of scope.
 ================================================
 */
-class CScopedCriticalSection {
-public:
-    CScopedCriticalSection(CSystemMutex& m) : mutex(&m) {
+class CScopedCriticalSection
+{
+  public:
+    CScopedCriticalSection(CSystemMutex &m) : mutex(&m)
+    {
         mutex->Lock();
     }
-    ~CScopedCriticalSection() {
+    ~CScopedCriticalSection()
+    {
         mutex->Unlock();
     }
 
-private:
-    CSystemMutex* 	mutex;	// NOTE: making this a reference causes a TypeInfo crash
+  private:
+    CSystemMutex *mutex; // NOTE: making this a reference causes a TypeInfo crash
 };
 
 /*
@@ -68,37 +80,47 @@ that a thread can wait on for it to be raised.  It's used to indicate pData is a
 a thread has reached a specific point.
 ================================================
 */
-class CSystemSignal {
-public:
-    static const int	WAIT_INFINITE = -1;
+class CSystemSignal
+{
+  public:
+    static const int WAIT_INFINITE = -1;
 
-    CSystemSignal(bool manualReset = false) {
+    CSystemSignal(bool manualReset = false)
+    {
         platform()->SignalCreate(m_Handle, manualReset);
     }
-    ~CSystemSignal() {
+    ~CSystemSignal()
+    {
         platform()->SignalDestroy(m_Handle);
     }
 
-    void	Raise() {
+    void Raise()
+    {
         platform()->SignalRaise(m_Handle);
     }
 
-    void	Clear() {
+    void Clear()
+    {
         platform()->SignalClear(m_Handle);
     }
 
     // Wait returns true if the object is in a signalled state and
     // returns false if the wait timed out. Wait also clears the signalled
     // state when the signalled state is reached within the time out period.
-    bool	Wait(int iTimeout = WAIT_INFINITE) {
+    bool Wait(int iTimeout = WAIT_INFINITE)
+    {
         return platform()->SignalWait(m_Handle, iTimeout);
     }
 
-private:
-    signalHandle_t		m_Handle;
+  private:
+    signalHandle_t m_Handle;
 
-    CSystemSignal(const CSystemSignal& s) {}
-    void				operator=(const CSystemSignal& s) {}
+    CSystemSignal(const CSystemSignal &s)
+    {
+    }
+    void operator=(const CSystemSignal &s)
+    {
+    }
 };
 
 /*
@@ -107,42 +129,51 @@ CSysInterlockedInteger is a C++ wrapper for the low level system interlocked int
 routines to atomically increment or decrement an integer.
 ================================================
 */
-class CSysInterlockedInteger {
-public:
-    CSysInterlockedInteger() : m_iValue(0) {}
+class CSysInterlockedInteger
+{
+  public:
+    CSysInterlockedInteger() : m_iValue(0)
+    {
+    }
 
     // atomically increments the integer and returns the new value
-    int					Increment() {
+    int Increment()
+    {
         return platform()->InterlockedIncrement(m_iValue);
     }
 
     // atomically decrements the integer and returns the new value
-    int					Decrement() {
+    int Decrement()
+    {
         return platform()->InterlockedDecrement(m_iValue);
     }
 
     // atomically adds a value to the integer and returns the new value
-    int					Add(int v) {
+    int Add(int v)
+    {
         return platform()->InterlockedAdd(m_iValue, (interlockedInt_t)v);
     }
 
     // atomically subtracts a value from the integer and returns the new value
-    int					Sub(int v) {
+    int Sub(int v)
+    {
         return platform()->InterlockedSub(m_iValue, (interlockedInt_t)v);
     }
 
     // returns the current value of the integer
-    int					GetValue() const {
+    int GetValue() const
+    {
         return m_iValue;
     }
 
     // sets a new value, Note: this operation is not atomic
-    void				SetValue(int v) {
+    void SetValue(int v)
+    {
         m_iValue = (interlockedInt_t)v;
     }
 
-private:
-    interlockedInt_t	m_iValue;
+  private:
+    interlockedInt_t m_iValue;
 };
 
 /*
@@ -151,29 +182,34 @@ CSysInterlockedPointer is a C++ wrapper around the low level system interlocked 
 routine to atomically bSet a pointer while retrieving the previous value of the pointer.
 ================================================
 */
-template< typename T >
-class CSysInterlockedPointer {
-public:
-    CSysInterlockedPointer() : ptr(NULL) {}
+template <typename T> class CSysInterlockedPointer
+{
+  public:
+    CSysInterlockedPointer() : ptr(NULL)
+    {
+    }
 
     // atomically sets the pointer and returns the previous pointer value
-    T* 		Set(T* newPtr) {
-        return (T*)platform()->InterlockedExchangePointer((void*&)ptr, newPtr);
+    T *Set(T *newPtr)
+    {
+        return (T *)platform()->InterlockedExchangePointer((void *&)ptr, newPtr);
     }
 
     // atomically sets the pointer to 'newPtr' only if the previous pointer is equal to 'comparePtr'
     // ptr = ( ptr == comparePtr ) ? newPtr : ptr
-    T* 		CompareExchange(T* comparePtr, T* newPtr) {
-        return (T*)platform()->InterlockedCompareExchangePointer((void*&)ptr, comparePtr, newPtr);
+    T *CompareExchange(T *comparePtr, T *newPtr)
+    {
+        return (T *)platform()->InterlockedCompareExchangePointer((void *&)ptr, comparePtr, newPtr);
     }
 
     // returns the current value of the pointer
-    T* 		Get() const {
+    T *Get() const
+    {
         return ptr;
     }
 
-private:
-    T* 		ptr;
+  private:
+    T *ptr;
 };
 
 /*
@@ -229,21 +265,26 @@ from the worker thread.
 Note that worker threads are useful on all platforms but they do not map to the SPUs on the PS3.
 ================================================
 */
-class CSystemThread {
-public:
+class CSystemThread
+{
+  public:
     CSystemThread();
-    virtual			~CSystemThread();
+    virtual ~CSystemThread();
 
-    const char* 	GetName() const {
+    const char *GetName() const
+    {
         return pszName.c_str();
     }
-    uintptr_t		GetThreadHandle() const {
+    uintptr_t GetThreadHandle() const
+    {
         return threadHandle;
     }
-    bool			IsRunning() const {
+    bool IsRunning() const
+    {
         return isRunning;
     }
-    bool			IsTerminating() const {
+    bool IsTerminating() const
+    {
         return isTerminating;
     }
 
@@ -251,20 +292,18 @@ public:
     // Thread Start/Stop/Wait
     //------------------------
 
-    bool			StartThread(const char* pszName, core_t core,
-        xthreadPriority priority = THREAD_NORMAL,
-        int stackSize = DEFAULT_THREAD_STACK_SIZE);
+    bool StartThread(const char *pszName, core_t core, xthreadPriority priority = THREAD_NORMAL,
+                     int stackSize = DEFAULT_THREAD_STACK_SIZE);
 
-    bool			StartWorkerThread(const char* pszName, core_t core,
-        xthreadPriority priority = THREAD_NORMAL,
-        int stackSize = DEFAULT_THREAD_STACK_SIZE);
+    bool StartWorkerThread(const char *pszName, core_t core, xthreadPriority priority = THREAD_NORMAL,
+                           int stackSize = DEFAULT_THREAD_STACK_SIZE);
 
-    void			StopThread(bool wait = true);
+    void StopThread(bool wait = true);
 
     // This can be called from multiple other threads. However, in the case
     // of a worker thread, the work being "done" has little meaning if other
     // threads are continuously signalling more work.
-    void			WaitForThread();
+    void WaitForThread();
 
     //------------------------
     // Worker Thread
@@ -272,33 +311,37 @@ public:
 
     // Signals the thread to notify work is available.
     // This can be called from multiple other threads.
-    void			SignalWork();
+    void SignalWork();
 
     // Returns true if the work is done without waiting.
     // This can be called from multiple other threads. However, the work
     // being "done" has little meaning if other threads are continuously
     // signalling more work.
-    bool			IsWorkDone();
+    bool IsWorkDone();
 
-protected:
+  protected:
     // The routine that performs the work.
-    virtual int		Run();
+    virtual int Run();
 
-private:
-    std::string		    pszName;
-    uintptr_t		    threadHandle;
-    bool			    isWorker;
-    bool			    isRunning;
-    volatile bool	    isTerminating;
-    volatile bool	    moreWorkToDo;
-    CSystemSignal		signalWorkerDone;
-    CSystemSignal		signalMoreWorkToDo;
-    CSystemMutex		signalMutex;
+  private:
+    std::string pszName;
+    uintptr_t threadHandle;
+    bool isWorker;
+    bool isRunning;
+    volatile bool isTerminating;
+    volatile bool moreWorkToDo;
+    CSystemSignal signalWorkerDone;
+    CSystemSignal signalMoreWorkToDo;
+    CSystemMutex signalMutex;
 
-    static int		ThreadProc(CSystemThread* thread);
+    static int ThreadProc(CSystemThread *thread);
 
-    CSystemThread(const CSystemThread& s) {}
-    void			operator=(const CSystemThread& s) {}
+    CSystemThread(const CSystemThread &s)
+    {
+    }
+    void operator=(const CSystemThread &s)
+    {
+    }
 };
 
 /*
@@ -330,28 +373,29 @@ will work well on the PC, Mac and the 360, they do not directly map to the PS3,
 in that the worker threads won't automatically run on the SPUs.
 ================================================
 */
-template<class threadType>
-class CSysWorkerThreadGroup {
-public:
-    CSysWorkerThreadGroup(const char* pszName, int numThreads,
-        xthreadPriority priority = THREAD_NORMAL,
-        int stackSize = DEFAULT_THREAD_STACK_SIZE);
+template <class threadType> class CSysWorkerThreadGroup
+{
+  public:
+    CSysWorkerThreadGroup(const char *pszName, int numThreads, xthreadPriority priority = THREAD_NORMAL,
+                          int stackSize = DEFAULT_THREAD_STACK_SIZE);
 
-    virtual			~CSysWorkerThreadGroup();
+    virtual ~CSysWorkerThreadGroup();
 
-    int				GetNumThreads() const {
+    int GetNumThreads() const
+    {
         return m_ThreadList.size();
     }
-    threadType& 	GetThread(int i) {
+    threadType &GetThread(int i)
+    {
         return *m_ThreadList[i];
     }
 
-    void			SignalWorkAndWait();
+    void SignalWorkAndWait();
 
-private:
-    std::vector<threadType*>	m_ThreadList;
-    bool					    m_bRunOneThread;	    // use the signalling thread as one of the threads
-    bool					    m_bSingleThreaded;		// bSet to true for debugging
+  private:
+    std::vector<threadType *> m_ThreadList;
+    bool m_bRunOneThread;   // use the signalling thread as one of the threads
+    bool m_bSingleThreaded; // bSet to true for debugging
 };
 
 /*
@@ -388,17 +432,18 @@ synchronize with each other half-way through execution.
 
 ================================================
 */
-class CSystemThreadSynchronizer {
-public:
-    static const int	WAIT_INFINITE = -1;
+class CSystemThreadSynchronizer
+{
+  public:
+    static const int WAIT_INFINITE = -1;
 
-    void			SetNumThreads(unsigned int num);
-    void			Signal(unsigned int nThread);
-    bool			Synchronize(unsigned int nThread, int iTimeout = WAIT_INFINITE);
+    void SetNumThreads(unsigned int num);
+    void Signal(unsigned int nThread);
+    bool Synchronize(unsigned int nThread, int iTimeout = WAIT_INFINITE);
 
-private:
-    std::vector<CSystemSignal*>		m_Signals;
-    CSysInterlockedInteger		    m_nBusy;
+  private:
+    std::vector<CSystemSignal *> m_Signals;
+    CSysInterlockedInteger m_nBusy;
 };
 
-#endif  //!__THREAD__H__
+#endif //!__THREAD__H__

@@ -8,7 +8,8 @@
 #ifndef ANABAZZ_SCANCODE_HPP
 #define ANABAZZ_SCANCODE_HPP
 
-typedef enum {
+typedef enum
+{
     KEYCODE_UNKNOWN = 0,
 
     /**
@@ -16,7 +17,7 @@ typedef enum {
      *
      *  These values are from usage page 0x07 (USB keyboard page).
      */
-     /* @{ */
+    /* @{ */
 
     KEYCODE_A = 4,
     KEYCODE_B = 5,
@@ -67,50 +68,50 @@ typedef enum {
     KEYCODE_LEFTBRACKET = 47,
     KEYCODE_RIGHTBRACKET = 48,
     KEYCODE_BACKSLASH = 49, /**< Located at the lower left of the return
-                                  *   key on ISO keyboards and at the right end
-                                  *   of the QWERTY row on ANSI keyboards.
-                                  *   Produces REVERSE SOLIDUS (backslash) and
-                                  *   VERTICAL LINE in a US layout, REVERSE
-                                  *   SOLIDUS and VERTICAL LINE in a UK Mac
-                                  *   layout, NUMBER SIGN and TILDE in a UK
-                                  *   Windows layout, DOLLAR SIGN and POUND SIGN
-                                  *   in a Swiss German layout, NUMBER SIGN and
-                                  *   APOSTROPHE in a German layout, GRAVE
-                                  *   ACCENT and POUND SIGN in a French Mac
-                                  *   layout, and ASTERISK and MICRO SIGN in a
-                                  *   French Windows layout.
-                                  */
+                             *   key on ISO keyboards and at the right end
+                             *   of the QWERTY row on ANSI keyboards.
+                             *   Produces REVERSE SOLIDUS (backslash) and
+                             *   VERTICAL LINE in a US layout, REVERSE
+                             *   SOLIDUS and VERTICAL LINE in a UK Mac
+                             *   layout, NUMBER SIGN and TILDE in a UK
+                             *   Windows layout, DOLLAR SIGN and POUND SIGN
+                             *   in a Swiss German layout, NUMBER SIGN and
+                             *   APOSTROPHE in a German layout, GRAVE
+                             *   ACCENT and POUND SIGN in a French Mac
+                             *   layout, and ASTERISK and MICRO SIGN in a
+                             *   French Windows layout.
+                             */
     KEYCODE_NONUSHASH = 50, /**< ISO USB keyboards actually use this code
-                                  *   instead of 49 for the same key, but all
-                                  *   OSes I've seen treat the two codes
-                                  *   identically. So, as an implementor, unless
-                                  *   your keyboard generates both of those
-                                  *   codes and your OS treats them differently,
-                                  *   you should generate KEYCODE_BACKSLASH
-                                  *   instead of this code. As a user, you
-                                  *   should not rely on this code because SDL
-                                  *   will never generate it with most (all?)
-                                  *   keyboards.
-                                  */
+                             *   instead of 49 for the same key, but all
+                             *   OSes I've seen treat the two codes
+                             *   identically. So, as an implementor, unless
+                             *   your keyboard generates both of those
+                             *   codes and your OS treats them differently,
+                             *   you should generate KEYCODE_BACKSLASH
+                             *   instead of this code. As a user, you
+                             *   should not rely on this code because SDL
+                             *   will never generate it with most (all?)
+                             *   keyboards.
+                             */
     KEYCODE_SEMICOLON = 51,
     KEYCODE_APOSTROPHE = 52,
     KEYCODE_GRAVE = 53, /**< Located in the top left corner (on both ANSI
-                              *   and ISO keyboards). Produces GRAVE ACCENT and
-                              *   TILDE in a US Windows layout and in US and UK
-                              *   Mac layouts on ANSI keyboards, GRAVE ACCENT
-                              *   and NOT SIGN in a UK Windows layout, SECTION
-                              *   SIGN and PLUS-MINUS SIGN in US and UK Mac
-                              *   layouts on ISO keyboards, SECTION SIGN and
-                              *   DEGREE SIGN in a Swiss German layout (Mac:
-                              *   only on ISO keyboards), CIRCUMFLEX ACCENT and
-                              *   DEGREE SIGN in a German layout (Mac: only on
-                              *   ISO keyboards), SUPERSCRIPT TWO and TILDE in a
-                              *   French Windows layout, COMMERCIAL AT and
-                              *   NUMBER SIGN in a French Mac layout on ISO
-                              *   keyboards, and LESS-THAN SIGN and GREATER-THAN
-                              *   SIGN in a Swiss German, German, or French Mac
-                              *   layout on ANSI keyboards.
-                              */
+                         *   and ISO keyboards). Produces GRAVE ACCENT and
+                         *   TILDE in a US Windows layout and in US and UK
+                         *   Mac layouts on ANSI keyboards, GRAVE ACCENT
+                         *   and NOT SIGN in a UK Windows layout, SECTION
+                         *   SIGN and PLUS-MINUS SIGN in US and UK Mac
+                         *   layouts on ISO keyboards, SECTION SIGN and
+                         *   DEGREE SIGN in a Swiss German layout (Mac:
+                         *   only on ISO keyboards), CIRCUMFLEX ACCENT and
+                         *   DEGREE SIGN in a German layout (Mac: only on
+                         *   ISO keyboards), SUPERSCRIPT TWO and TILDE in a
+                         *   French Windows layout, COMMERCIAL AT and
+                         *   NUMBER SIGN in a French Mac layout on ISO
+                         *   keyboards, and LESS-THAN SIGN and GREATER-THAN
+                         *   SIGN in a Swiss German, German, or French Mac
+                         *   layout on ANSI keyboards.
+                         */
     KEYCODE_COMMA = 54,
     KEYCODE_PERIOD = 55,
     KEYCODE_SLASH = 56,
@@ -146,7 +147,7 @@ typedef enum {
     KEYCODE_UP = 82,
 
     KEYCODE_NUMLOCKCLEAR = 83, /**< num lock on PC, clear on Mac keyboards
-                                     */
+                                */
     KEYCODE_KP_DIVIDE = 84,
     KEYCODE_KP_MULTIPLY = 85,
     KEYCODE_KP_MINUS = 86,
@@ -165,19 +166,19 @@ typedef enum {
     KEYCODE_KP_PERIOD = 99,
 
     KEYCODE_NONUSBACKSLASH = 100, /**< This is the additional key that ISO
-                                        *   keyboards have over ANSI ones,
-                                        *   located between left shift and Y.
-                                        *   Produces GRAVE ACCENT and TILDE in a
-                                        *   US or UK Mac layout, REVERSE SOLIDUS
-                                        *   (backslash) and VERTICAL LINE in a
-                                        *   US or UK Windows layout, and
-                                        *   LESS-THAN SIGN and GREATER-THAN SIGN
-                                        *   in a Swiss German, German, or French
-                                        *   layout. */
-    KEYCODE_APPLICATION = 101, /**< windows contextual menu, compose */
-    KEYCODE_POWER = 102, /**< The USB document says this is a status flag,
-                               *   not a physical key - but some Mac keyboards
-                               *   do have a power key. */
+                                   *   keyboards have over ANSI ones,
+                                   *   located between left shift and Y.
+                                   *   Produces GRAVE ACCENT and TILDE in a
+                                   *   US or UK Mac layout, REVERSE SOLIDUS
+                                   *   (backslash) and VERTICAL LINE in a
+                                   *   US or UK Windows layout, and
+                                   *   LESS-THAN SIGN and GREATER-THAN SIGN
+                                   *   in a Swiss German, German, or French
+                                   *   layout. */
+    KEYCODE_APPLICATION = 101,    /**< windows contextual menu, compose */
+    KEYCODE_POWER = 102,          /**< The USB document says this is a status flag,
+                                   *   not a physical key - but some Mac keyboards
+                                   *   do have a power key. */
     KEYCODE_KP_EQUALS = 103,
     KEYCODE_F13 = 104,
     KEYCODE_F14 = 105,
@@ -192,16 +193,16 @@ typedef enum {
     KEYCODE_F23 = 114,
     KEYCODE_F24 = 115,
     KEYCODE_EXECUTE = 116,
-    KEYCODE_HELP = 117,    /**< AL Integrated Help Center */
-    KEYCODE_MENU = 118,    /**< Menu (show menu) */
+    KEYCODE_HELP = 117, /**< AL Integrated Help Center */
+    KEYCODE_MENU = 118, /**< Menu (show menu) */
     KEYCODE_SELECT = 119,
-    KEYCODE_STOP = 120,    /**< AC Stop */
-    KEYCODE_AGAIN = 121,   /**< AC Redo/Repeat */
-    KEYCODE_UNDO = 122,    /**< AC Undo */
-    KEYCODE_CUT = 123,     /**< AC Cut */
-    KEYCODE_COPY = 124,    /**< AC Copy */
-    KEYCODE_PASTE = 125,   /**< AC Paste */
-    KEYCODE_FIND = 126,    /**< AC Find */
+    KEYCODE_STOP = 120,  /**< AC Stop */
+    KEYCODE_AGAIN = 121, /**< AC Redo/Repeat */
+    KEYCODE_UNDO = 122,  /**< AC Undo */
+    KEYCODE_CUT = 123,   /**< AC Cut */
+    KEYCODE_COPY = 124,  /**< AC Copy */
+    KEYCODE_PASTE = 125, /**< AC Paste */
+    KEYCODE_FIND = 126,  /**< AC Find */
     KEYCODE_MUTE = 127,
     KEYCODE_VOLUMEUP = 128,
     KEYCODE_VOLUMEDOWN = 129,
@@ -232,9 +233,9 @@ typedef enum {
     KEYCODE_LANG8 = 151, /**< reserved */
     KEYCODE_LANG9 = 152, /**< reserved */
 
-    KEYCODE_ALTERASE = 153,    /**< Erase-Eaze */
+    KEYCODE_ALTERASE = 153, /**< Erase-Eaze */
     KEYCODE_SYSREQ = 154,
-    KEYCODE_CANCEL = 155,      /**< AC Cancel */
+    KEYCODE_CANCEL = 155, /**< AC Cancel */
     KEYCODE_CLEAR = 156,
     KEYCODE_PRIOR = 157,
     KEYCODE_RETURN2 = 158,
@@ -301,24 +302,24 @@ typedef enum {
     KEYCODE_RALT = 230, /**< alt gr, option */
     KEYCODE_RGUI = 231, /**< windows, command (apple), meta */
 
-    KEYCODE_MODE = 257,    /**< I'm not sure if this is really not covered
-                                 *   by any of the above, but since there's a
-                                 *   special KMOD_MODE for it I'm adding it here
-                                 */
+    KEYCODE_MODE = 257, /**< I'm not sure if this is really not covered
+                         *   by any of the above, but since there's a
+                         *   special KMOD_MODE for it I'm adding it here
+                         */
 
-                                 /* @} *//* Usage page 0x07 */
+    /* @} */ /* Usage page 0x07 */
 
-                                 /**
-                                  *  \pszName Usage page 0x0C
-                                  *
-                                  *  These values are mapped from usage page 0x0C (USB consumer page).
-                                  *  See https://usb.org/sites/default/files/hut1_2.pdf
-                                  *
-                                  *  There are way more keys in the spec than we can represent in the
-                                  *  current scancode range, so pick the ones that commonly come up in
-                                  *  real world usage.
-                                  */
-                                  /* @{ */
+    /**
+     *  \pszName Usage page 0x0C
+     *
+     *  These values are mapped from usage page 0x0C (USB consumer page).
+     *  See https://usb.org/sites/default/files/hut1_2.pdf
+     *
+     *  There are way more keys in the spec than we can represent in the
+     *  current scancode range, so pick the ones that commonly come up in
+     *  real world usage.
+     */
+    /* @{ */
 
     KEYCODE_AUDIONEXT = 258,
     KEYCODE_AUDIOPREV = 259,
@@ -326,26 +327,26 @@ typedef enum {
     KEYCODE_AUDIOPLAY = 261,
     KEYCODE_AUDIOMUTE = 262,
     KEYCODE_MEDIASELECT = 263,
-    KEYCODE_WWW = 264,             /**< AL Internet Browser */
+    KEYCODE_WWW = 264, /**< AL Internet Browser */
     KEYCODE_MAIL = 265,
-    KEYCODE_CALCULATOR = 266,      /**< AL Calculator */
+    KEYCODE_CALCULATOR = 266, /**< AL Calculator */
     KEYCODE_COMPUTER = 267,
-    KEYCODE_AC_SEARCH = 268,       /**< AC Search */
-    KEYCODE_AC_HOME = 269,         /**< AC Home */
-    KEYCODE_AC_BACK = 270,         /**< AC Back */
-    KEYCODE_AC_FORWARD = 271,      /**< AC Forward */
-    KEYCODE_AC_STOP = 272,         /**< AC Stop */
-    KEYCODE_AC_REFRESH = 273,      /**< AC Refresh */
-    KEYCODE_AC_BOOKMARKS = 274,    /**< AC Bookmarks */
+    KEYCODE_AC_SEARCH = 268,    /**< AC Search */
+    KEYCODE_AC_HOME = 269,      /**< AC Home */
+    KEYCODE_AC_BACK = 270,      /**< AC Back */
+    KEYCODE_AC_FORWARD = 271,   /**< AC Forward */
+    KEYCODE_AC_STOP = 272,      /**< AC Stop */
+    KEYCODE_AC_REFRESH = 273,   /**< AC Refresh */
+    KEYCODE_AC_BOOKMARKS = 274, /**< AC Bookmarks */
 
-    /* @} *//* Usage page 0x0C */
+    /* @} */ /* Usage page 0x0C */
 
     /**
      *  \pszName Walther keys
      *
      *  These are values that Christian Walther added (for mac keyboard?).
      */
-     /* @{ */
+    /* @{ */
 
     KEYCODE_BRIGHTNESSDOWN = 275,
     KEYCODE_BRIGHTNESSUP = 276,
@@ -355,44 +356,44 @@ typedef enum {
     KEYCODE_KBDILLUMDOWN = 279,
     KEYCODE_KBDILLUMUP = 280,
     KEYCODE_EJECT = 281,
-    KEYCODE_SLEEP = 282,           /**< SC System Sleep */
+    KEYCODE_SLEEP = 282, /**< SC System Sleep */
 
     KEYCODE_APP1 = 283,
     KEYCODE_APP2 = 284,
 
-    /* @} *//* Walther keys */
+    /* @} */ /* Walther keys */
 
     /**
      *  \pszName Usage page 0x0C (additional renderer keys)
      *
      *  These values are mapped from usage page 0x0C (USB consumer page).
      */
-     /* @{ */
+    /* @{ */
 
     KEYCODE_AUDIOREWIND = 285,
     KEYCODE_AUDIOFASTFORWARD = 286,
 
-    /* @} *//* Usage page 0x0C (additional renderer keys) */
+    /* @} */ /* Usage page 0x0C (additional renderer keys) */
 
     /**
      *  \pszName Mobile keys
      *
      *  These are values that are often used on mobile phones.
      */
-     /* @{ */
+    /* @{ */
 
-    KEYCODE_SOFTLEFT = 287, /**< Usually situated below the display on phones and
-                                      used as a multi-function feature key for selecting
-                                      a software defined function shown on the bottom left
-                                      of the display. */
+    KEYCODE_SOFTLEFT = 287,  /**< Usually situated below the display on phones and
+                                       used as a multi-function feature key for selecting
+                                       a software defined function shown on the bottom left
+                                       of the display. */
     KEYCODE_SOFTRIGHT = 288, /**< Usually situated below the display on phones and
                                        used as a multi-function feature key for selecting
                                        a software defined function shown on the bottom right
                                        of the display. */
-    KEYCODE_CALL = 289, /**< Used for accepting phone calls. */
-    KEYCODE_ENDCALL = 290, /**< Used for rejecting phone calls. */
+    KEYCODE_CALL = 289,      /**< Used for accepting phone calls. */
+    KEYCODE_ENDCALL = 290,   /**< Used for rejecting phone calls. */
 
-    /* @} *//* Mobile keys */
+    /* @} */ /* Mobile keys */
 
     /* Add any other keys here. */
 
@@ -400,7 +401,8 @@ typedef enum {
                                  for array bounds */
 } ANABAZZ_KEYCODE;
 
-typedef enum {
+typedef enum
+{
     MOUSEKEY_LEFT = 1,
     MOUSEKEY_RIGHT = 3,
 

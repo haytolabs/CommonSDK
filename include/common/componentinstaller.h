@@ -10,10 +10,11 @@
 
 #include "public.h"
 
-struct component_decl_t {
-  const char*     m_pszModule;
-  const char*     m_pszComponent;
-  IComponent**    m_lpComponent;
+struct component_decl_t
+{
+    const char *m_pszModule;
+    const char *m_pszComponent;
+    void **m_lpComponent;
 };
 
 #endif /* HAYATOLABS_COMPONENTINSTALLER_H */
